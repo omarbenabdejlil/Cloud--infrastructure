@@ -1,0 +1,23 @@
+---
+- name: Installation de Symfony
+  hosts: appserver
+  remote_user: useradm
+  become: yes
+  vars:
+    ansible_become_pass: "{{ 123 }}"
+  tasks: 
+    - name: Installer Git
+      apt: name=git state=latest 
+    - name: checking the location of symfont !
+      command: which symfony 
+    - name: installing features
+      command: chdir=/var/www/html/projet-symfony5/ composer install
+    - name: creating the data base
+      command: pchdir=/var/www/html/projet-symfony5/ php bin/console doctrine:database:create
+    - name: migrate the data
+      command: chdir=/var/www/html/projet-symfony5/ php bin/console doctrine:schema:update --force 
+    - name: load the fixture
+      command: chdir=/var/www/html/projet-symfony5/ php bin/console doctrine:fixture:load
+    - name: starting up the symfony server
+      command: chdir=/var/www/html/projet-symfony5/ symfony serve
+ 

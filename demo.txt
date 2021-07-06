@@ -1,0 +1,7 @@
+[controller]
+control ansible_connection=local
+
+[loadbalancer]
+pc01 ansible_user=sameh
+appserver ansible_user=useradm
+[webserver]
