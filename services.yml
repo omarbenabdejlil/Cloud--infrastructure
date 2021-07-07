@@ -1,0 +1,17 @@
+---
+- name: Installation de Symfony
+  hosts: appserver
+  remote_user: useradm
+  become: yes
+  vars:
+    ansible_become_pass: "{{ 123 }}"
+  tasks: 
+    - name: Copy semah file into /etc/.
+      command: cp /home/useradm/semah  /var/www/
+    - name: installing list of items 
+      apt: name={{ item }} state=latest
+      with_items:
+        - apache2
+        - curl
+        - docker
+        - nginx
